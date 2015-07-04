@@ -1,0 +1,7 @@
+### Mapping device mapper after picking the values from message file.
+
+for i in `awk '/Jun 29 13:58:12/,/Jun 29 13:58:12/ {for (i=6;i<=NF;i++) {printf "%s ", $i; if (i == NF) print " " }} ' var/log/messages | grep -w dm-.. | awk -F '[-,]' '{print $2}`; do awk -v var="$i" '$3==var'  sos_commands/devicemapper/dmsetup_info_-c ; done
+
+### In progress work to find the timing missing logs in message file.
+
+awk '{"date +%Y"|getline var1; "date +%m"|getline var2; print var1,var2,$2,$3}' /var/log/messages | sed 's/:/ /g'
